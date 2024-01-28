@@ -5,16 +5,22 @@ extern "C" {
     {
         int width            = 800;
         int height           = 450;
-
         InitWindow( width, height, "Flush Was Here");
+
 
         int circle_x{200};
         int circle_y{200};
 
+        // speed for things
+        int direction{10}; // Axe
+        int player_speed{10}; // Circle
+
 
         int axe_x{400};
         int axe_y{0};
-        SetTargetFPS(120);
+
+
+        SetTargetFPS(60);
         while (WindowShouldClose() == false)
         {
             BeginDrawing();
@@ -24,24 +30,21 @@ extern "C" {
             DrawCircle(circle_x, circle_y, 25, BLUE);
             DrawRectangle(axe_x, axe_y, 50, 50, RED);
 
-            axe_y += 10;
+            axe_y += direction;
+            if (axe_y > height || axe_y < 0)
+            {
+                direction = -direction;
+            }
 
             if (IsKeyDown(KEY_D) && circle_x < 350)
             {
-                circle_x = circle_x + 10;
+                circle_x += player_speed;
             }
             if (IsKeyDown(KEY_A) && circle_x > 0)
             {
-                circle_x = circle_x - 10;
+                circle_x -= player_speed;
             }
-            if (IsKeyDown(KEY_W) && circle_x > 0)
-            {
-                circle_y = circle_y - 10;
-            }
-            if (IsKeyDown(KEY_S) && circle_x < 350)
-            {
-                circle_y = circle_y + 10;
-            }
+
 
             EndDrawing();
         }
